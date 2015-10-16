@@ -106,7 +106,7 @@ def main():
 
     loop, user_input = True, None
     while loop:
-        user_input = input("Enter a value from 0-9: ")
+        user_input = input("Enter a digit from 0 to 9: ")
         user_input = int(user_input)
         loop = not (0 <= user_input <= 9)
 
