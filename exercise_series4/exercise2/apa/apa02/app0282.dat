@@ -1,0 +1,5 @@
+.VERSION 1.0
+.INCLUDE apa/app.doc
+.INCLUDE apa/data/apa02/app0282.dat
+.SEGMENT CHARACTER 9 ? "2"
+.SEGMENT CHARACTER 28 ? "3"

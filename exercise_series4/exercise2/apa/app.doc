@@ -1,0 +1,76 @@
+.VERSION 1.0
+
+.COMMENT    #####################
+            ### DOCUMENTATION ###
+            #####################
+
+.DATA_SOURCE Perception Systems, Apple Computer, Inc.
+
+.DATA_ID app0
+
+.DATA_CONTACT    
+            Name:       Bill Stafford
+            Email:      stafford@apple.com
+            Phone:      (408)974-8410
+
+            Name:       Larry Yaeger
+            Email:      larryy@apple.com
+            Phone:      (408)974-6082
+
+            Name:       Dick Lyon
+            Email:      lyon@apple.com
+            Phone:      (408)974-4245
+
+            Fax:        (408)974-8414
+
+            Affiliation:    Apple Computer, Inc.
+            Address:    20525 Mariani Ave, MS:301-4H
+                        Cupertino, CA 95014, USA
+
+.SETUP      Site:       Apple Computer
+                        City Center 4, Cupertino, CA
+            Time:       Summer 1992
+            Conditions: Supervised recording conditions
+                        People sitting at a desk
+            Writers:    Volunteers
+            Form layout:    Window with a baseline
+
+.DATA_INFO  Alphabet:   Latin, mixed case
+            Lexicon:    English words, punctuation, sequences of
+                        letters and punctuation, and simple math expressions.
+            Quality:    Some segmentation errors.  Writers indicated how many
+                        strokes they used to write each character in the
+                        character set.  Visual feedback was given to the
+                        writer as the ink was segmented.
+            Writing style:  Printed
+            Segmentation:   Segments are sentences, Sub-Segments are characters
+
+.PAD        Machine name:    Wacom SD-510C
+            Display:    Apple monitor
+                        Matrix 640  x 480 points
+                        black ink on white background
+            Pen:        Untethered pen with tip switch.
+            Driver:     Home made.  Tablet produced screen pixel
+                        values.  Screen was 72dpi, actual pen tip travel
+                        distances are unknown.
+
+.COORD X Y
+
+.HIERARCHY TEXT CHARACTER
+
+.ALPHABET       "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" 
+                "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" 
+                "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" 
+                "U" "V" "W" "X" "Y" "Z" "a" "b" "c" "d" 
+                "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" 
+                "o" "p" "q" "r" "s" "t" "u"" v" "w" "x" 
+                "y" "z" "~" "!" "@" "#" "$" "%" "^" 
+                "&" "*" "(" ")" "-" "+" "=" "|" "\\" 
+                "/" "{" "}" "?" "[" "]" "\"" ":" "<" ">"
+                "," "." ";" "'" "`" "_" " "
+                
+.X_DIM 1000
+.Y_DIM 500
+.X_POINTS_PER_INCH 145
+.Y_POINTS_PER_INCH 145
+.POINTS_PER_SECOND 60
