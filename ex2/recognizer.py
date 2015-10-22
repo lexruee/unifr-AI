@@ -8,10 +8,21 @@ import wave
 import numpy.fft as fft
 import struct
 import operator
-import math
+
+__author__ = "Alexander Rüedlinger"
+__license__ = """
+/*
+ * ----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42):
+ * <a.rueedlinger@gmail.com> wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return Alexander Rüedlinger
+ * ----------------------------------------------------------------------------
+ */
+"""
 
 train_path = './sounds/train'
-test_path = './sounds/test'
+test_path = './sounds/finalTest'
 
 
 def read_data_signal_from_wave_file(file_path):
@@ -29,7 +40,6 @@ def read_data():
     train_data, test_data = [], []
 
     for train_file, test_file in zip(train_files, test_files):
-        # sample rate is 44100
         _train_data = read_data_signal_from_wave_file(train_file)
         _test_data = read_data_signal_from_wave_file(test_file)
         train_data.append(_train_data)
@@ -38,9 +48,8 @@ def read_data():
     return train_data, test_data
 
 
-def recognize(test_signal, train_data, user_key, plot):
+def recognize(test_signal, train_data, user_key, **kwargs):
     stats = {}
-
     for key, train_signal in zip(range(0, 10), train_data):
         min_size = min(len(test_signal), len(train_signal))
         loss = 0
@@ -49,7 +58,7 @@ def recognize(test_signal, train_data, user_key, plot):
             distance = train_signal[i] - test_signal[i]
             loss += distance**2
 
-        stats[key] = loss/2.0
+        stats[key] = loss
     total_loss = 0
     for key, loss in stats.items():
         total_loss += loss
@@ -58,24 +67,24 @@ def recognize(test_signal, train_data, user_key, plot):
 
     min_key, min_loss = min(stats.iteritems(), key=operator.itemgetter(1))
 
-    print('-------------------------------------------------------')
-    print('Predict: %s' % min_key)
-    print('User input: %s' % user_key)
-    print('Min. loss: %s' % min_loss)
-    print("success: %s" % (min_key == user_key))
-    print('')
-    for key, prop in stats.items():
-        print("label: %s, loss: %s " % (key, round(prop, 2)))
+    if kwargs.get('verbose', False):
+        print('-------------------------------------------------------')
+        print('Predict: %s' % min_key)
+        print('User input: %s' % user_key)
+        print('Min. loss: %s' % min_loss)
+        print("success: %s" % (min_key == user_key))
+        print('')
+        for key, prop in stats.items():
+            print("label: %s, loss: %s " % (key, round(prop, 2)))
 
-    print('-------------------------------------------------------')
+        print('-------------------------------------------------------')
 
-    if plot:
+    if kwargs.get('plot', False):
         plt.figure()
         plt.bar(np.arange(10), stats.values(), align='center', alpha=0.5)
         plt.xticks(np.arange(10), stats.keys())
         plt.xlabel('Digits')
         plt.ylabel('Loss')
-
         for key, prop in stats.items():
             plt.text(key, prop, str(round(prop, 2)))
 
@@ -101,7 +110,6 @@ def main():
         # plt.plot(tt_data_signal)
         # plt.show()
 
-
     print("Minimalistic digit recognizer - Who needs a GUI?")
 
     loop, user_input = True, None
@@ -111,19 +119,31 @@ def main():
         loop = not (0 <= user_input <= 9)
 
     test_signal = test_data[user_input]
-    recognize(test_signal, train_data, user_input, True)
+    recognize(test_signal, train_data, user_input, plot=True)
 
 
-def evaluate():
+def compute_confusion_matrix():
     train_data, test_data = read_data()
     train_data = transform_data(train_data)
     test_data = transform_data(test_data)
 
-    for digit in range(0,10):
-        test_signal = test_data[digit]
-        recognize(test_signal, train_data, digit, False)
+    conf_mat = np.zeros((10, 10))  # actual / predicted
 
+    for digit in range(0, 10):
+        test_signal = test_data[digit]
+        predict = recognize(test_signal, train_data, digit)
+        conf_mat[digit, predict] += 1
+
+    print("actual class / predicted")
+    labels = " " * 4 + "  ".join(map(str, range(10)))
+    print(labels)
+    for i in range(10):
+        s = str(i) + ' |'
+        for j in range(10):
+            s += " %s " % int(conf_mat[i, j])
+        print(s)
 
 if __name__ == '__main__':
-    main()
-    #evaluate()
+    #main()
+    compute_confusion_matrix()
+
